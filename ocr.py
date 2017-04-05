@@ -29,7 +29,6 @@ class OCRNeuralNetwork:
             self.theta2 = self._rand_initialize_weights(num_hidden_nodes, 10)
             self.input_layer_bias = self._rand_initialize_weights(1, num_hidden_nodes)
             self.hidden_layer_bias = self._rand_initialize_weights(1, 10)
-
             # Train using sample data
             TrainData = namedtuple('TrainData', ['y0', 'label'])
             self.train([TrainData(self.data_matrix[i], int(self.data_labels[i])) for i in training_indices])
@@ -86,6 +85,8 @@ class OCRNeuralNetwork:
         y2 = self.sigmoid(y2)
 
         results = y2.T.tolist()[0]
+        print results
+        print "Predict "+str(results.index(max(results)))
         return results.index(max(results))
 
     def save(self):
