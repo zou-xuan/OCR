@@ -26,7 +26,6 @@ var ocrDemo={
     resetCanvas: function() {
         var canvas = document.getElementById('canvas');
         var ctx = canvas.getContext('2d');
-
         this.data = [];
         ctx.fillStyle = this.BLACK;
         ctx.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_WIDTH);

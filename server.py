@@ -8,7 +8,7 @@ PORT_NUMBER = 8000
 HIDDEN_NODE_COUNT = 15
 
 # Load data samples and labels into matrix
-data_matrix = np.loadtxt(open('data.csv', 'rb'), delimiter = ',')
+data_matrix = np.loadtxt(open('data.csv', 'rb'), delimiter=',')
 data_labels = np.loadtxt(open('dataLabels.csv', 'rb'))
 
 # Convert from numpy ndarrays to python lists
@@ -20,20 +20,21 @@ data_labels = data_labels.tolist()
 # for hidden nodes
 nn = OCRNeuralNetwork(HIDDEN_NODE_COUNT, data_matrix, data_labels, list(range(5000)));
 
+
 class JSONHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_POST(s):
         response_code = 200
         response = ""
         var_len = int(s.headers.get('Content-Length'))
-        content = s.rfile.read(var_len);
-        payload = json.loads(content);
+        content = s.rfile.read(var_len)
+        payload = json.loads(content)
 
         if payload.get('train'):
             nn.train(payload['trainArray'])
             nn.save()
         elif payload.get('predict'):
             try:
-                response = {"type":"test", "result":nn.predict(str(payload['image']))}
+                response = {"type": "test", "result": nn.predict(str(payload['image']))}
             except:
                 response_code = 500
         else:
@@ -46,6 +47,7 @@ class JSONHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         if response:
             s.wfile.write(json.dumps(response))
         return
+
 
 if __name__ == '__main__':
     server_class = BaseHTTPServer.HTTPServer;
